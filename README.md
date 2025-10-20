@@ -1,73 +1,21 @@
-# React + TypeScript + Vite
+# 8.4 React хуки
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Вы находитесь здесь
 
-Currently, two official plugins are available:
+Напишите компонент, отображающий текущую геолокацию. Предусмотрите возможные ошибки (отказ пользователя, ошибка геолокации).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Вильфанд
 
-## React Compiler
+Напишите компонент, который отображает погоду (достаточно температуры) в локации, которую присылают компоненту в пропсы
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Третьи полгода
 
-## Expanding the ESLint configuration
+Объедините два предыдущих компонента (не физически, а в одном приложении). Приложение должно сначала определять текущее местоположение, затем, в случае успеха — определять погоду и отображать ее.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Идите в хук
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Заберите функциональность компонентов из задачи 1 и задачи 2 в хуки useGeolocation и useWeather, и используйте их для задания три. В приложении останется только один компонент, внутри которого будут использованы два хука. Все хуки напишите самостоятельно.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## ⭐ Внешний трекинг
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Найдите где-нибудь хук useGeolocation и замените свой хук на найденный в рамках предыдущего задания.
