@@ -1,26 +1,34 @@
-import { useEffect, useState, type FC } from 'react';
-import { cnMyGeo } from './MyGeo.classname';
+import { useEffect, useState, type FC } from "react";
 
-const MyGeo: FC<any> = () => {
-	const [coords, setCoords] = useState<{ latitude?: number; longitude?: number }>({});
-	const [errMsg, setErrMsg] = useState<string | false>(false);
+import { cnMyGeo } from "./MyGeo.classname";
+import type { Coords } from "../../App";
 
-	useEffect(() => {
-		navigator.geolocation.getCurrentPosition(
-			(pos) => {
-				setCoords({ latitude: pos.coords.latitude, longitude: pos.coords.longitude });
-			},
-			(error) => {
-				setErrMsg(error.message);
-			}
-		);
-	}, []);
+type MyGeoProps = {
+    onGetGeo: (coords: Coords) => void;
+};
 
-	return (
-		<div className={cnMyGeo()}>
-			{!errMsg ? `You geolocation is: longitude ${coords.longitude} latitude ${coords.latitude}` : errMsg}
-		</div>
-	);
+const MyGeo: FC<MyGeoProps> = ({ onGetGeo }) => {
+    const [errMsg, setErrMsg] = useState<string | false>(false);
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                onGetGeo({
+                    latitude: pos.coords.latitude,
+                    longitude: pos.coords.longitude,
+                });
+            },
+            (error) => {
+                setErrMsg(error.message);
+            }
+        );
+    }, [onGetGeo]);
+
+    return (
+        <div className={cnMyGeo()}>
+            {errMsg || ''}
+        </div>
+    );
 };
 
 export { MyGeo };
