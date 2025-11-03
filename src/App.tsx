@@ -1,12 +1,24 @@
+import { useCallback, useState } from 'react';
+
 import { MyGeo } from './components/MyGeo/MyGeo';
 import { Weather } from './components/Weather/Weather';
 
+export type Coords = {
+	latitude?: number;
+	longitude?: number
+}
+
 function App() {
+	const [coords, setCoords] = useState<Coords>({});
+
+	const handleGeopositioning = useCallback((pos: Coords) => {
+		setCoords({ latitude: pos.latitude, longitude: pos.longitude });
+	}, []);
 
 	return (
 		<div>
-			<MyGeo />
-			<Weather lon={13.37890625} lat={52.51636123657227} />
+			<MyGeo onGetGeo={handleGeopositioning} />
+			<Weather lon={coords.longitude} lat={coords.latitude} />
 		</div>
 	);
 }

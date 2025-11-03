@@ -2,9 +2,9 @@ import { useEffect, useState, type FC } from "react";
 import { cnWeather } from "./Weather.classname";
 
 type WeatherProps = {
-    lon: number;
-    lat: number;
-}
+    lon: number | undefined;
+    lat: number | undefined;
+};
 
 type WeatherResponse = {
     main: {
@@ -16,17 +16,29 @@ type WeatherResponse = {
 const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
 const Weather: FC<WeatherProps> = ({ lon, lat }) => {
-    const [locWeather, setLocWeather] = useState<{ city?: string, temp?: number }>({});
+    const [locWeather, setLocWeather] = useState<{
+        city?: string;
+        temp?: number;
+    }>({});
 
     useEffect(() => {
-        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${WEATHER_API_KEY}`)
-            .then(response => response.json())
+        fetch(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${WEATHER_API_KEY}`
+        )
+            .then((response) => response.json())
             .then((result: WeatherResponse) => {
-                setLocWeather({ city: result.name, temp: result.main.temp })
+                setLocWeather({ city: result.name, temp: result.main.temp });
             })
-    }, []);
+            .catch(err => console.log(err))
+    }, [lon, lat]);
 
-    return <div className={cnWeather()}>Temperature in {locWeather.city} - {locWeather.temp}</div>
-}
+    return (
+        <div className={cnWeather()}>
+            {lon === undefined || lat === undefined
+                ? "There is a problem with your geolocation"
+                : `Temperature in ${locWeather.city} - ${locWeather.temp}`}
+        </div>
+    );
+};
 
 export { Weather };
